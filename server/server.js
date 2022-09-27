@@ -11,20 +11,11 @@ app.use(express.json());
 
 // creates an endpoint for the route /api
 app.get('/', (req, res) => {
-  res.json({ message: 'Hello from My template ExpressJS' });
+  res.json({ message: 'Hello from Port 5005' });
 });
 
-// create the get request
+// API for endangered species
 app.get('/api/species', cors(), async (req, res) => {
-  // const STUDENTS = [
-
-  //     { id: 1, firstName: 'Lisa', lastName: 'Lee' },
-  //     { id: 2, firstName: 'Eileen', lastName: 'Long' },
-  //     { id: 3, firstName: 'Fariba', lastName: 'Dadko' },
-  //     { id: 4, firstName: 'Cristina', lastName: 'Rodriguez' },
-  //     { id: 5, firstName: 'Andrea', lastName: 'Trejo' },
-  // ];
-  // res.json(STUDENTS);
   try {
     const { rows: species } = await db.query('SELECT * FROM species');
     res.send(species);
@@ -33,9 +24,29 @@ app.get('/api/species', cors(), async (req, res) => {
   }
 });
 
-// create the POST request
-app.post('/api/students', cors(), async (req, res) => {
-  const newUser = {
+// API for individual endangered animals
+app.get('/api/individual', cors(), async (req, res) => {
+  try {
+    const { rows: individual } = await db.query('SELECT * FROM individual');
+    res.send(individual);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+// API for sightings 
+app.get('/api/sightings', cors(), async (req, res) => {
+  try {
+    const { rows: sightings } = await db.query('SELECT * FROM sightings');
+    res.send(sightings);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+// create the POST request for individual sightings
+app.post('/api/sightings', cors(), async (req, res) => {
+  const newSighting = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
   };
@@ -50,5 +61,5 @@ app.post('/api/students', cors(), async (req, res) => {
 
 // console.log that your server is up and running
 app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
+  console.log(`Bruh bruh, we still live on ${PORT}`);
 });
