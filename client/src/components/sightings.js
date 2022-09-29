@@ -27,7 +27,6 @@ function Sightings() {
             {/* {" "} */}
             {sighting.sighting_date} {sighting.individual} {sighting.location}
             {sighting.healthy} {sighting.email}
-            <button type="button">EDIT</button>
           </li>
         ))}
       </ul>
