@@ -2,34 +2,37 @@ import { useState, useEffect } from "react";
 import Form from "./form";
 
 function Sightings() {
-  const [students, setStudents] = useState([]);
+  const [sightings, setSightings] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/sightings")
+    fetch("http://localhost:5005/api/sightings")
       .then((response) => response.json())
-      .then((students) => {
-            setStudents(students);
+      .then((sightings) => {
+            setSightings(sightings);
           });
   }, []);
 
-  const addStudent = (newStudent) => {
+  const addSighting = (newSighting) => {
     //console.log(newStudent);
     //postStudent(newStudent);
-    setStudents((students) => [...students, newStudent]);
+    setSightings((sightings) => [...sightings, newSighting]);
   };
 
   return (
-    <div className="students">
-      <h2> Report Your Sighting </h2>
+    <div className="sightings">
+      <h2> Current Sightings </h2>
       <ul>
-        {students.map((student) => (
-          <li key={student.id}>
-            {" "}
-            {student.firstname} {student.lastname}
+        {sightings.map((sighting) => (
+          <li key={sighting.id}>
+            {/* {" "} */}
+            {sighting.sighting_date} {sighting.individual} {sighting.location}
+            {sighting.healthy} {sighting.email}
+            <button type="button">EDIT</button>
           </li>
         ))}
       </ul>
-      <Form addStudent={addStudent} />
+      <h2> Report Your Sighting </h2>
+      <Form addSighting={addSighting} />
     </div>
   );
 }

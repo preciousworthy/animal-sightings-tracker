@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 // API for endangered species
 app.get('/api/species', cors(), async (req, res) => {
   try {
-    const { rows: species } = await db.query('SELECT * FROM species');
+    const { rows: species } = await db.query('SELECT * FROM species;');
     res.send(species);
   } catch (e) {
     return res.status(400).json({ e });
@@ -27,7 +27,7 @@ app.get('/api/species', cors(), async (req, res) => {
 // API for individual endangered animals
 app.get('/api/individual', cors(), async (req, res) => {
   try {
-    const { rows: individual } = await db.query('SELECT * FROM individual');
+    const { rows: individual } = await db.query('SELECT * FROM individual;');
     res.send(individual);
   } catch (e) {
     return res.status(400).json({ e });
@@ -37,7 +37,7 @@ app.get('/api/individual', cors(), async (req, res) => {
 // API for sightings 
 app.get('/api/sightings', cors(), async (req, res) => {
   try {
-    const { rows: sightings } = await db.query('SELECT * FROM sightings');
+    const { rows: sightings } = await db.query('SELECT * FROM sightings;');
     res.send(sightings);
   } catch (e) {
     return res.status(400).json({ e });
@@ -45,14 +45,34 @@ app.get('/api/sightings', cors(), async (req, res) => {
 });
 
 // create the POST request for individual sightings
+// app.post('/api/sightings', cors(), async (req, res) => {
+//   const newSighting = {
+//     firstname: req.body.firstname,
+//     lastname: req.body.lastname,
+//   };
+//   console.log([newUser.firstname, newUser.lastname]);
+//   const result = await db.query(
+//     'INSERT INTO students(firstname, lastname) VALUES($1, $2) RETURNING *',
+//     [newUser.firstname, newUser.lastname],
+//   );
+//   console.log(result.rows[0]);
+//   res.json(result.rows[0]);
+// });
+
+// create the POST request for individual sightings
 app.post('/api/sightings', cors(), async (req, res) => {
   const newSighting = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
+    sighting_date: req.body.sighting_date,
+    individual: req.body.individual,
+    location: req.body.location,
+    healthy: req.body.healthy,
+    created_on: Date,
+    email: req.body.email
+
   };
-  console.log([newUser.firstname, newUser.lastname]);
+  console.log([newSighting.sighting_date, newSighting.individual]);
   const result = await db.query(
-    'INSERT INTO students(firstname, lastname) VALUES($1, $2) RETURNING *',
+    'INSERT INTO sightings(sighting_date, individual, location, healthy, created_on, email) VALUES($1, $2) RETURNING *',
     [newUser.firstname, newUser.lastname],
   );
   console.log(result.rows[0]);
