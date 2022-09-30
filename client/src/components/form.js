@@ -5,8 +5,8 @@ const Form = (props) => {
     sighting_date: "",
     individual: "",
     location: "",
-    healthy: Boolean,
-    created: Date,
+    healthy: "",
+    created: "",
     email: ""
   });
 

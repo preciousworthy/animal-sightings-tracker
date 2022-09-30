@@ -44,6 +44,15 @@ app.get('/api/sightings', cors(), async (req, res) => {
   }
 });
 
+app.get('/api/join', cors(), async (req, res) => {
+  try {
+    const { rows: sightings } = await db.query('SELECT sighting_date, individual FROM sightings');
+    res.send(sightings);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
 // create the POST request for individual sightings
 // app.post('/api/sightings', cors(), async (req, res) => {
 //   const newSighting = {
@@ -66,14 +75,14 @@ app.post('/api/sightings', cors(), async (req, res) => {
     individual: req.body.individual,
     location: req.body.location,
     healthy: req.body.healthy,
-    created_on: Date,
+    created_on: req.body.created_on,
     email: req.body.email
 
   };
   console.log([newSighting.sighting_date, newSighting.individual]);
   const result = await db.query(
-    'INSERT INTO sightings(sighting_date, individual, location, healthy, created_on, email) VALUES($1, $2) RETURNING *',
-    [newUser.firstname, newUser.lastname],
+    'INSERT INTO sightings(sighting_date, individual, location, healthy, created_on, email) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+    [newSighting.sighting_date, newSighting.individual, newSighting.location, newSighting.healthy, newSighting.created_on, newSighting.email],
   );
   console.log(result.rows[0]);
   res.json(result.rows[0]);
